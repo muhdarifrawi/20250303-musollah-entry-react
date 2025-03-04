@@ -15,6 +15,21 @@ npm install --save-dev @babel/core @babel/preset-react babel-loader
 npm install --save react react-dom
 ```
 
+4. Add React Bootstrap:
+```bash
+npm install react-bootstrap bootstrap
+```
+
+Add `import 'bootstrap/dist/css/bootstrap.min.css';` into `app.jsx`.
+
+Ensure that each component has:
+```js
+import React from 'react';
+import { useState } from 'react';
+```
+
+The `React` import must be standalone.
+
 ## Running The App
 To run the app, type the following:
 ```bash

@@ -18,6 +18,26 @@ const createWindow = () => {
 
   // and load the index.html of the app.
   mainWindow.loadURL(MAIN_WINDOW_WEBPACK_ENTRY);
+  // mainWindow.loadURL(`${MAIN_WINDOW_WEBPACK_ENTRY}#/`);
+
+  mainWindow.webContents.session.webRequest.onHeadersReceived((details, callback) => {
+    callback({
+      responseHeaders: {
+        ...details.responseHeaders,
+        "Content-Security-Policy": [
+          "default-src 'self' 'unsafe-inline' 'unsafe-eval' data: ws: wss:"
+        ],
+      },
+    });
+  });
+
+  mainWindow.webContents.once("did-finish-load", () => {
+    mainWindow.webContents.executeJavaScript(`
+      if (!window.location.hash || window.location.hash === "#") {
+        window.location.replace("#/");
+      }
+    `);
+  });
 
   // Open the DevTools.
   mainWindow.webContents.openDevTools();

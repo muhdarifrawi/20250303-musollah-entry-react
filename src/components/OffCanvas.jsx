@@ -4,7 +4,7 @@ import Button from 'react-bootstrap/Button';
 import Offcanvas from 'react-bootstrap/Offcanvas';
 
 function OffCanvas() {
-    const [show, setShow] = useState(true);
+    const [show, setShow] = useState(false);
 
     const handleClose = () => setShow(false);
     const handleShow = () => setShow(true);
@@ -20,8 +20,9 @@ function OffCanvas() {
                     <Offcanvas.Title>Offcanvas</Offcanvas.Title>
                 </Offcanvas.Header>
                 <Offcanvas.Body>
-                    Some text as placeholder. In real life you can have the elements you
-                    have chosen. Like, text, images, lists, etc.
+                    <a href="#/">Homepage</a>
+                    <a href="#/musollah-form">Musollah Form</a>
+                    <a href="#/mosque-form">Mosque Form</a>
                 </Offcanvas.Body>
             </Offcanvas>
         </>

@@ -13,7 +13,7 @@ function MusollahForm() {
         wudhuAreaInput: "",
         directionInput: [""],
         prayerItemsInput: "",
-        imagesInput1: "",
+        imagesInput: [""],
         importantNotesInput: "",
         coordinatesInputLat: "",
         coordinatesInputLong: "",
@@ -60,13 +60,46 @@ function MusollahForm() {
     }
 
     const handleDirectionsRemove = (index) => {
-        console.log(index);
         setFormValues((prev) => {
             let updatedDirectionInput = [...prev.directionInput];
             updatedDirectionInput.splice(index,1);
             return {
                 ...prev,
                 directionInput: updatedDirectionInput
+            }
+        });
+    }
+
+    const handleAddImages = (e) => {
+        e.preventDefault();
+        setFormValues((prev) => {
+            let updatedImagesInput = [...prev.imagesInput];
+            updatedImagesInput = [...prev.imagesInput, ""];
+            return {
+                ...prev,
+                imagesInput: updatedImagesInput
+            }
+        });
+    };
+
+    const handleImagesChange = (index, value) => {
+        setFormValues((prev) => {
+            const updatedImagesInput = [...prev.imagesInput];
+            updatedImagesInput[index] = value;
+            return {
+                ...prev,
+                imagesInput: updatedImagesInput
+            };
+        });
+    }
+
+    const handleImagesRemove = (index) => {
+        setFormValues((prev) => {
+            let updatedImagesInput = [...prev.imagesInput];
+            updatedImagesInput.splice(index,1);
+            return {
+                ...prev,
+                imagesInput: updatedImagesInput
             }
         });
     }
@@ -223,9 +256,7 @@ function MusollahForm() {
                                 <input
                                     type="text"
                                     className="form-control"
-                                    // id={`direction-input-${index}`}
                                     placeholder={`Enter direction line ${index + 1}`}
-                                    // name={`directionInput`}
                                     value={formValues.directionInput[index]}
                                     onChange={(e) => handleDirectionsChange(index, e.target.value)}
                                 />
@@ -264,15 +295,24 @@ function MusollahForm() {
                     <label htmlFor="images-input" className="form-label">
                         Images
                     </label>
-                    <input
-                        type="text"
-                        className="form-control"
-                        id="images-input-1"
-                        placeholder="please place image URL"
-                        name="imagesInput1"
-                        value={formValues.imagesInput1}
-                        onChange={handleChange}
-                    />
+                    {formValues.imagesInput.map((elm, index) => {
+                        // console.log(elm,index);
+                        return (
+                            <div className="d-flex align-items-center mb-3" key={index}>
+                                <input
+                                    type="text"
+                                    className="form-control"
+                                    placeholder={`Enter image ${index + 1}`}
+                                    value={formValues.imagesInput[index]}
+                                    onChange={(e) => handleImagesChange(index, e.target.value)}
+                                />
+                                <button type="button" className="btn-close ms-3" 
+                                aria-label={`Remove image line ${index+1}`}
+                                onClick={() => handleImagesRemove(index)}></button>
+                            </div>
+                        )
+                    })}
+                    <button className="btn btn-primary btn-sm" onClick={handleAddImages}>Add more images</button>
                 </div>
                 <div className="mb-3">
                     <label htmlFor="important-notes-input" className="form-label">

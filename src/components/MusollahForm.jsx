@@ -2,9 +2,6 @@ import React from "react";
 import { useState } from 'react';
 
 function MusollahForm() {
-
-    // const [inputs, setInputs] = useState([]);
-    // const [DirectionIdCounter, setDirectionIdCounter] = useState({ "": "" });
     const [formValues, setFormValues] = useState({
         locationNameInput: "",
         addressInput: "",
@@ -14,7 +11,7 @@ function MusollahForm() {
         statusInput: "",
         statusDescriptionInput: "",
         wudhuAreaInput: "",
-        directionInput: ["test"],
+        directionInput: [""],
         prayerItemsInput: "",
         imagesInput1: "",
         importantNotesInput: "",
@@ -25,9 +22,9 @@ function MusollahForm() {
     });
 
     const handleChange = (e) => {
-        console.log(e.target.name + " : "+ e.target.value);
+        console.log(e.target.name + " : " + e.target.value);
         const { name, value } = e.target;
-        
+
         setFormValues((prev) => ({
             ...prev,
             [name]: value,
@@ -39,7 +36,7 @@ function MusollahForm() {
         console.log("All input values:", formValues);
     };
 
-    const handleAddInput = (e) => {
+    const handleAddDirections = (e) => {
         e.preventDefault();
         setFormValues((prev) => {
             let updatedDirectionInput = [...prev.directionInput];
@@ -49,7 +46,6 @@ function MusollahForm() {
                 directionInput: updatedDirectionInput
             }
         });
-        // setIdCounter(idCounter + 1);
     };
 
     const handleDirectionsChange = (index, value) => {
@@ -60,6 +56,18 @@ function MusollahForm() {
                 ...prev,
                 directionInput: updatedDirectionInput
             };
+        });
+    }
+
+    const handleDirectionsRemove = (index) => {
+        console.log(index);
+        setFormValues((prev) => {
+            let updatedDirectionInput = [...prev.directionInput];
+            updatedDirectionInput.splice(index,1);
+            return {
+                ...prev,
+                directionInput: updatedDirectionInput
+            }
         });
     }
 
@@ -208,34 +216,26 @@ function MusollahForm() {
                         Directions
                     </label>
 
-                    {/* <input
-                        type="text"
-                        className="form-control"
-                        id="direction-input-1"
-                        placeholder="go to here"
-                        name="directionInput1"
-                        value={formValues.directionInput[0]}
-                        onChange={handleChange}
-                    /> */}
-
-                    <button onClick={handleAddInput}>Add Input</button>
                     {formValues.directionInput.map((elm, index) => {
                         // console.log(elm,index);
                         return (
-                        <div key={index}>
-                            {/* <label htmlFor={`input-${id}`}>Input {id}</label> */}
-                            {/* <input id={`input-${id}`} type="text" /> */}
-                            <input
-                                type="text"
-                                className="form-control mb-3"
-                                // id={`direction-input-${index}`}
-                                placeholder={`Enter direction line ${index + 1}`}
-                                // name={`directionInput`}
-                                value={formValues.directionInput[index]}
-                                onChange={(e) => handleDirectionsChange(index, e.target.value)}
-                            />
-                        </div>
-                    )})}
+                            <div className="d-flex align-items-center mb-3" key={index}>
+                                <input
+                                    type="text"
+                                    className="form-control"
+                                    // id={`direction-input-${index}`}
+                                    placeholder={`Enter direction line ${index + 1}`}
+                                    // name={`directionInput`}
+                                    value={formValues.directionInput[index]}
+                                    onChange={(e) => handleDirectionsChange(index, e.target.value)}
+                                />
+                                <button type="button" className="btn-close ms-3" 
+                                aria-label={`Remove direction line ${index+1}`}
+                                onClick={() => handleDirectionsRemove(index)}></button>
+                            </div>
+                        )
+                    })}
+                    <button className="btn btn-primary btn-sm" onClick={handleAddDirections}>Add more directions</button>
                 </div>
                 <div className="mb-3">
                     <label htmlFor="prayer-items-input" className="form-label">

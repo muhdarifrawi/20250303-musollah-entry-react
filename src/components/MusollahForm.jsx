@@ -6,7 +6,19 @@ function MusollahForm() {
         locationNameInput: "",
         addressInput: "",
         floorInput: "",
-        
+        layoutInput:"",
+        layoutDescriptionInput:"",
+        statusInput:"",
+        statusDescriptionInput:"",
+        wudhuAreaInput:"",
+        directionInput1:"",
+        prayerItemsInput:"",
+        imagesInput1:"",
+        importantNotesInput:"",
+        coordinatesInputLat:"",
+        coordinatesInputLong:"",
+        countryInput:"",
+        idInput:""
     });
 
     const handleChange = (e) => {
@@ -74,6 +86,9 @@ function MusollahForm() {
             className="form-select"
             aria-label="Select layout type"
             id="layout-input"
+            name="layoutInput"
+            value={formValues.layoutInput} 
+            onChange={handleChange}
             >
             <option selected value="None">
                 Select layout type
@@ -98,6 +113,9 @@ function MusollahForm() {
             className="form-control"
             id="layout-description-input"
             rows="3"
+            name="layoutDescriptionInput"
+            value={formValues.layoutDescriptionInput} 
+            onChange={handleChange}
             ></textarea>
         </div>
         <div className="mb-3">
@@ -108,6 +126,9 @@ function MusollahForm() {
             className="form-select"
             aria-label="Select status"
             id="status-input"
+            name="statusInput"
+            value={formValues.statusInput} 
+            onChange={handleChange}
             >
             <option selected value="None">
                 Select status
@@ -127,6 +148,9 @@ function MusollahForm() {
             className="form-control"
             id="status-description-input"
             rows="3"
+            name="statusDescriptionInput"
+            value={formValues.statusDescriptionInput} 
+            onChange={handleChange}
             ></textarea>
         </div>
         <div className="mb-3">
@@ -137,6 +161,9 @@ function MusollahForm() {
             className="form-select"
             aria-label="Select wudhu"
             id="wudhu-area-input"
+            name="wudhuAreaInput"
+            value={formValues.wudhuAreaInput} 
+            onChange={handleChange}
             >
             <option selected value="None">
                 Select wudhu area
@@ -153,7 +180,10 @@ function MusollahForm() {
             type="text"
             className="form-control"
             id="direction-input-1"
-            placeholder="3rd Floor"
+            placeholder="go to here"
+            name="directionInput1"
+            value={formValues.directionInput1} 
+            onChange={handleChange}
             />
         </div>
         <div className="mb-3">
@@ -164,6 +194,9 @@ function MusollahForm() {
             className="form-select"
             aria-label="Select prayer items status"
             id="prayer-items-input"
+            name="prayerItemsInput"
+            value={formValues.prayerItemsInput} 
+            onChange={handleChange}
             >
             <option selected value="None">
                 Select prayer items status
@@ -185,6 +218,9 @@ function MusollahForm() {
             className="form-control"
             id="images-input-1"
             placeholder="please place image URL"
+            name="imagesInput1"
+            value={formValues.imagesInput1} 
+            onChange={handleChange}
             />
         </div>
         <div className="mb-3">
@@ -195,6 +231,9 @@ function MusollahForm() {
             className="form-control"
             id="important-notes-input"
             rows="3"
+            name="importantNotesInput"
+            value={formValues.importantNotesInput} 
+            onChange={handleChange}
             ></textarea>
         </div>
         <div className="mb-3">
@@ -206,12 +245,18 @@ function MusollahForm() {
             className="form-control mb-3"
             id="coordinates-input-lat"
             placeholder="latitude"
+            name="coordinatesInputLat"
+            value={formValues.coordinatesInputLat} 
+            onChange={handleChange}
             />
             <input
             type="text"
             className="form-control mb-3"
             id="coordinates-input-long"
             placeholder="longitude"
+            name="coordinatesInputLong"
+            value={formValues.coordinatesInputLong} 
+            onChange={handleChange}
             />
         </div>
         <div className="mb-3">
@@ -223,6 +268,9 @@ function MusollahForm() {
             className="form-control"
             id="country-input"
             placeholder="Enter country"
+            name="countryInput"
+            value={formValues.countryInput} 
+            onChange={handleChange}
             />
         </div>
         <div className="mb-3">
@@ -234,6 +282,9 @@ function MusollahForm() {
             className="form-control"
             id="id-input"
             placeholder="Enter entry id"
+            name="idInput"
+            value={formValues.idInput} 
+            onChange={handleChange}
             />
         </div>
         <div className="mb-3">

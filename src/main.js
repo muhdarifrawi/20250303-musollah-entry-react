@@ -1,6 +1,9 @@
 const { app, BrowserWindow } = require('electron');
 const path = require('node:path');
 
+import { installExtension, REACT_DEVELOPER_TOOLS } from 'electron-devtools-installer';
+console.log('NODE_ENV:', process.env.NODE_ENV);
+
 // Handle creating/removing shortcuts on Windows when installing/uninstalling.
 if (require('electron-squirrel-startup')) {
   app.quit();
@@ -47,6 +50,20 @@ const createWindow = () => {
 // initialization and is ready to create browser windows.
 // Some APIs can only be used after this event occurs.
 app.whenReady().then(() => {
+
+  // electron-devtools: https://github.com/MarshallOfSound/electron-devtools-installer
+  // loads only in development mode. `npm start`.
+  if (process.env.NODE_ENV === 'development') {
+    installExtension(REACT_DEVELOPER_TOOLS)
+      .then((ext) => {
+        console.log(`Added Extension:  ${ext.name}`);
+        setTimeout(() => {
+          BrowserWindow.getAllWindows().forEach(win => win.reload());
+        }, 1000);
+      })
+      .catch((err) => console.log('An error occurred: ', err));
+  }
+
   createWindow();
 
   // On OS X it's common to re-create a window in the app when the

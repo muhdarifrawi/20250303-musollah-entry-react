@@ -1,5 +1,7 @@
 import React from "react";
 import { useState } from 'react';
+import PushJsonToGitHub from './PushJsonToGitHub.jsx';
+// import TestComp from "./TestComp";
 
 function MusollahForm() {
     const [formValues, setFormValues] = useState({
@@ -62,7 +64,7 @@ function MusollahForm() {
     const handleDirectionsRemove = (index) => {
         setFormValues((prev) => {
             let updatedDirectionInput = [...prev.directionInput];
-            updatedDirectionInput.splice(index,1);
+            updatedDirectionInput.splice(index, 1);
             return {
                 ...prev,
                 directionInput: updatedDirectionInput
@@ -96,7 +98,7 @@ function MusollahForm() {
     const handleImagesRemove = (index) => {
         setFormValues((prev) => {
             let updatedImagesInput = [...prev.imagesInput];
-            updatedImagesInput.splice(index,1);
+            updatedImagesInput.splice(index, 1);
             return {
                 ...prev,
                 imagesInput: updatedImagesInput
@@ -260,9 +262,9 @@ function MusollahForm() {
                                     value={formValues.directionInput[index]}
                                     onChange={(e) => handleDirectionsChange(index, e.target.value)}
                                 />
-                                <button type="button" className="btn-close ms-3" 
-                                aria-label={`Remove direction line ${index+1}`}
-                                onClick={() => handleDirectionsRemove(index)}></button>
+                                <button type="button" className="btn-close ms-3"
+                                    aria-label={`Remove direction line ${index + 1}`}
+                                    onClick={() => handleDirectionsRemove(index)}></button>
                             </div>
                         )
                     })}
@@ -306,9 +308,9 @@ function MusollahForm() {
                                     value={formValues.imagesInput[index]}
                                     onChange={(e) => handleImagesChange(index, e.target.value)}
                                 />
-                                <button type="button" className="btn-close ms-3" 
-                                aria-label={`Remove image line ${index+1}`}
-                                onClick={() => handleImagesRemove(index)}></button>
+                                <button type="button" className="btn-close ms-3"
+                                    aria-label={`Remove image line ${index + 1}`}
+                                    onClick={() => handleImagesRemove(index)}></button>
                             </div>
                         )
                     })}
@@ -382,8 +384,11 @@ function MusollahForm() {
                     <button type="submit" className="btn btn-primary mb-3">
                         Submit
                     </button>
+                    <PushJsonToGitHub
+                    />
                 </div>
             </form>
+            {/* <TestComp/> */}
         </>
     );
 }

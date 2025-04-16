@@ -1,8 +1,10 @@
 const { app, BrowserWindow } = require('electron');
-const path = require('node:path');
+const path = require('path');
+require('dotenv').config();
+console.log('TOKEN from main:', process.env.GITHUB_TOKEN);
 
 import { installExtension, REACT_DEVELOPER_TOOLS } from 'electron-devtools-installer';
-console.log('NODE_ENV:', process.env.NODE_ENV);
+console.log('\u001b[34m'+'NODE_ENV:', process.env.NODE_ENV + '\u001b[0m');
 
 // Handle creating/removing shortcuts on Windows when installing/uninstalling.
 if (require('electron-squirrel-startup')) {
@@ -15,7 +17,7 @@ const createWindow = () => {
     width: 800,
     height: 600,
     webPreferences: {
-      preload: MAIN_WINDOW_PRELOAD_WEBPACK_ENTRY,
+      preload: path.join(__dirname, 'src', 'preload.js'),
     },
   });
 
@@ -56,7 +58,7 @@ app.whenReady().then(() => {
   if (process.env.NODE_ENV === 'development') {
     installExtension(REACT_DEVELOPER_TOOLS)
       .then((ext) => {
-        console.log(`Added Extension:  ${ext.name}`);
+        console.log(`\u001b[34mAdded Extension:  ${ext.name}\u001b[0m`);
         setTimeout(() => {
           BrowserWindow.getAllWindows().forEach(win => win.reload());
         }, 1000);

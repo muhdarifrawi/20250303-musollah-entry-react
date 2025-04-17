@@ -1,10 +1,10 @@
 const { app, BrowserWindow } = require('electron');
-const path = require('path');
+const path = require('node:path');
 require('dotenv').config();
-console.log('TOKEN from main:', process.env.GITHUB_TOKEN);
+console.log(`\u001b[34mTOKEN from main: ${process.env.GITHUB_TOKEN} \u001b[0m`);
 
 import { installExtension, REACT_DEVELOPER_TOOLS } from 'electron-devtools-installer';
-console.log('\u001b[34m'+'NODE_ENV:', process.env.NODE_ENV + '\u001b[0m');
+console.log(`\u001b[34mNODE_ENV: ${process.env.NODE_ENV} \u001b[0m`);
 
 // Handle creating/removing shortcuts on Windows when installing/uninstalling.
 if (require('electron-squirrel-startup')) {
@@ -17,10 +17,12 @@ const createWindow = () => {
     width: 800,
     height: 600,
     webPreferences: {
-      preload: path.join(__dirname, 'src', 'preload.js'),
+      preload: MAIN_WINDOW_PRELOAD_WEBPACK_ENTRY,
     },
   });
 
+  console.log(`\u001b[32m\u001b[1mWEBPACK MAIN ENTRY: ${MAIN_WINDOW_WEBPACK_ENTRY}\u001b[0m`);
+  console.log(`\u001b[32m\u001b[1mWEBPACK PRELOAD ENTRY: ${MAIN_WINDOW_PRELOAD_WEBPACK_ENTRY}\u001b[0m`);
   // and load the index.html of the app.
   mainWindow.loadURL(MAIN_WINDOW_WEBPACK_ENTRY);
   // mainWindow.loadURL(`${MAIN_WINDOW_WEBPACK_ENTRY}#/`);

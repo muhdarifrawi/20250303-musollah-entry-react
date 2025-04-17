@@ -30,4 +30,8 @@ import './index.css';
 
 
 console.log('👋 This message is being logged by "renderer.js", included via webpack');
+console.log('[RENDERER] Token from preload:', window.env?.GITHUB_TOKEN);
+
 import './app.jsx';
+
+console.log(`This app is using Chrome (v${versions.chrome()}), Node.js (v${versions.node()}), and Electron (v${versions.electron()})`);

@@ -1,9 +1,13 @@
 // See the Electron documentation for details on how to use preload scripts:
 // https://www.electronjs.org/docs/latest/tutorial/process-model#preload-scripts
-const { contextBridge } = require('electron');
+const { contextBridge, ipcRenderer } = require('electron');
+
+// Will show up on the browser terminal
+console.log(`\u001b[34m\u001b[1mPRELOAD TRIGGERED \u001b[0m`);
 
 contextBridge.exposeInMainWorld('env', {
     GITHUB_TOKEN: process.env.GITHUB_TOKEN,
+    GITHUB_FILE_URL: process.env.GITHUB_FILE_URL
 });
 
 contextBridge.exposeInMainWorld('versions', {
@@ -13,4 +17,7 @@ contextBridge.exposeInMainWorld('versions', {
     // we can also expose variables, not just functions
 })
 
-console.log("\u001b[34mPRELOAD: ", GITHUB_TOKEN + "\u001b[0m");
+contextBridge.exposeInMainWorld('github', {
+    pushJson: (jsonData) => ipcRenderer.invoke('push-json-to-github', jsonData),
+    pullJson: () => ipcRenderer.invoke('pull-json-from-github'),
+});

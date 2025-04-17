@@ -32,6 +32,7 @@ module.exports = {
     {
       name: '@electron-forge/plugin-webpack',
       config: {
+        // devContentSecurityPolicy: "default-src 'self'; script-src 'self' 'unsafe-inline' 'unsafe-eval'; style-src 'self' 'unsafe-inline'; connect-src 'self' https://api.github.com;",
         mainConfig: './webpack.main.config.js',
         renderer: {
           config: './webpack.renderer.config.js',

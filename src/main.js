@@ -23,8 +23,7 @@ const createWindow = () => {
 
   console.log(`\u001b[32m\u001b[1mWEBPACK MAIN ENTRY: ${MAIN_WINDOW_WEBPACK_ENTRY}\u001b[0m`);
   console.log(`\u001b[32m\u001b[1mWEBPACK PRELOAD ENTRY: ${MAIN_WINDOW_PRELOAD_WEBPACK_ENTRY}\u001b[0m`);
-  // and load the index.html of the app.
-  mainWindow.loadURL(MAIN_WINDOW_WEBPACK_ENTRY);
+  
   // mainWindow.loadURL(`${MAIN_WINDOW_WEBPACK_ENTRY}#/`);
 
   mainWindow.webContents.session.webRequest.onHeadersReceived((details, callback) => {
@@ -32,11 +31,14 @@ const createWindow = () => {
       responseHeaders: {
         ...details.responseHeaders,
         "Content-Security-Policy": [
-          "default-src 'self' 'unsafe-inline' 'unsafe-eval' data: ws: wss:"
+          "default-src 'self' 'unsafe-inline' 'unsafe-eval' data: ws: wss:;connect-src 'self' https://github.com/muhdarifrawi/;"
         ],
       },
     });
   });
+
+  // and load the index.html of the app.
+  mainWindow.loadURL(MAIN_WINDOW_WEBPACK_ENTRY);
 
   mainWindow.webContents.once("did-finish-load", () => {
     mainWindow.webContents.executeJavaScript(`
@@ -90,3 +92,56 @@ app.on('window-all-closed', () => {
 
 // In this file you can include the rest of your app's specific main process
 // code. You can also put them in separate files and import them here.
+
+const { ipcMain } = require('electron');
+const axios = require('axios');
+
+ipcMain.handle('push-json-to-github', async (event, jsonData) => {
+  try {
+    const res = await axios({
+      method: 'put',
+      url: 'https://api.github.com/repos/YOUR_USERNAME/YOUR_REPO/contents/path/to/file.json',
+      headers: {
+        Authorization: `token YOUR_TOKEN`,
+        'Content-Type': 'application/json',
+      },
+      data: {
+        message: 'Update from Electron app',
+        content: Buffer.from(JSON.stringify(jsonData)).toString('base64'),
+        sha: 'FILE_SHA',
+      },
+    });
+    return { success: true, res: res.data };
+  } catch (err) {
+    return { success: false, error: err.message };
+  }
+});
+
+ipcMain.handle('pull-json-from-github', async (event) => {
+  try {
+    const TOKEN = process.env.GITHUB_TOKEN;
+    const URL = process.env.GITHUB_FILE_URL;
+    console.log("GITHUB TOKEN", TOKEN);
+    console.log("GITHUB URL", URL);
+
+    const res = await axios.get(
+        URL,
+        // {
+        //     message: 'Update file via app',
+        //     content: btoa(JSON.stringify(jsonData)),
+        //     sha: 'your-latest-sha',
+        // },
+        {
+            headers: {
+                Authorization: `Bearer ${TOKEN}`,
+                Accept: 'application/vnd.github+json',
+            },
+        }
+    );
+
+    return { success: true, res: res.data };
+  } catch (err) {
+    return { success: false, error: err.message };
+  }
+});
+

@@ -4,6 +4,7 @@ import PushJsonToGitHub from './PushJsonToGitHub.jsx';
 // import TestComp from "./TestComp";
 
 function MusollahForm() {
+    const [data, setData] = useState({});
     const [formValues, setFormValues] = useState({
         locationNameInput: "",
         addressInput: "",
@@ -22,6 +23,10 @@ function MusollahForm() {
         countryInput: "",
         idInput: ""
     });
+
+    const pulledData = (data) => {
+        setData(data);
+    }
 
     const handleChange = (e) => {
         console.log(e.target.name + " : " + e.target.value);
@@ -385,9 +390,30 @@ function MusollahForm() {
                         Submit
                     </button>
                     <PushJsonToGitHub
+                        pulledData={pulledData}
                     />
                 </div>
             </form>
+            {Object.entries(data).map(([key,value]) => {
+                if(key != "_links"){
+                    if(key == "content"){
+                        const decoded = atob(value)
+                        return (
+                            <>
+                                <h3>{key}</h3>
+                                <p>{decoded}</p>
+                            </>
+                        )
+                    }
+                    return (
+                        <>
+                            <h3>{key}</h3>
+                            <p>{value}</p>
+                        </>
+                    )
+                }
+            }  
+            )}
             {/* <TestComp/> */}
         </>
     );

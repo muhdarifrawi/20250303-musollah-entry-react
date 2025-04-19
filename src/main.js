@@ -98,11 +98,16 @@ const axios = require('axios');
 
 ipcMain.handle('push-json-to-github', async (event, jsonData) => {
   try {
+    const TOKEN = process.env.GITHUB_TOKEN;
+    const URL = process.env.GITHUB_FILE_URL;
+    console.log("\u001b[34m[main.js > push to github] GITHUB TOKEN\u001b[0m", TOKEN);
+    console.log("\u001b[34m[main.js > push to github] GITHUB URL\u001b[0m", URL);
+
     const res = await axios({
       method: 'put',
       url: 'https://api.github.com/repos/YOUR_USERNAME/YOUR_REPO/contents/path/to/file.json',
       headers: {
-        Authorization: `token YOUR_TOKEN`,
+        Authorization: `Bearer ${TOKEN}`,
         'Content-Type': 'application/json',
       },
       data: {
@@ -121,16 +126,11 @@ ipcMain.handle('pull-json-from-github', async (event) => {
   try {
     const TOKEN = process.env.GITHUB_TOKEN;
     const URL = process.env.GITHUB_FILE_URL;
-    console.log("GITHUB TOKEN", TOKEN);
-    console.log("GITHUB URL", URL);
+    console.log("\u001b[34m[main.js > pull from github] GITHUB TOKEN\u001b[0m", TOKEN);
+    console.log("\u001b[34m[main.js > pull from github] GITHUB URL\u001b[0m", URL);
 
     const res = await axios.get(
         URL,
-        // {
-        //     message: 'Update file via app',
-        //     content: btoa(JSON.stringify(jsonData)),
-        //     sha: 'your-latest-sha',
-        // },
         {
             headers: {
                 Authorization: `Bearer ${TOKEN}`,

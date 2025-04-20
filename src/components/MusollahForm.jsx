@@ -26,6 +26,43 @@ function MusollahForm() {
 
     const pulledData = (data) => {
         setData(data);
+        renderData();
+    }
+
+    const renderData = (data) => {
+        if(data){
+            let {
+                name,
+                content_url,
+                content
+            } = data;
+
+            let prettifyObj = "";
+
+            if(content){
+                let decodedContent = atob(content);
+                let decodedObj = JSON.parse(decodedContent);
+                prettifyObj = JSON.stringify(decodedObj, undefined, 4);
+
+                console.log(decodedContent);
+                console.log(decodedObj);
+                console.log(prettifyObj);
+            }
+            
+            return (
+                <>  
+                    <h1>Data Info</h1>
+                    <h3>Filename: </h3>
+                    <p>{name}</p>
+                    <h3>Content URL:</h3>
+                    <p>{content_url}</p>
+                    <h3>Content:</h3>
+                    <textarea className="form-control" name="content-info" 
+                    id="content-info" value={prettifyObj} readOnly
+                    style={{height:30+"vh"}}></textarea>
+                </>
+            )
+        }
     }
 
     const handleChange = (e) => {
@@ -394,6 +431,7 @@ function MusollahForm() {
                     />
                 </div>
             </form>
+            {renderData(data)}
             {Object.entries(data).map(([key,value]) => {
                 if(key != "_links"){
                     if(key == "content"){

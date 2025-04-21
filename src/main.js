@@ -14,8 +14,8 @@ if (require('electron-squirrel-startup')) {
 const createWindow = () => {
   // Create the browser window.
   const mainWindow = new BrowserWindow({
-    width: 800,
-    height: 600,
+    // width: 800,
+    // height: 600,
     webPreferences: {
       preload: MAIN_WINDOW_PRELOAD_WEBPACK_ENTRY,
     },
@@ -24,7 +24,7 @@ const createWindow = () => {
   console.log(`\u001b[32m\u001b[1mWEBPACK MAIN ENTRY: ${MAIN_WINDOW_WEBPACK_ENTRY}\u001b[0m`);
   console.log(`\u001b[32m\u001b[1mWEBPACK PRELOAD ENTRY: ${MAIN_WINDOW_PRELOAD_WEBPACK_ENTRY}\u001b[0m`);
   
-  // mainWindow.loadURL(`${MAIN_WINDOW_WEBPACK_ENTRY}#/`);
+  mainWindow.maximize();
 
   mainWindow.webContents.session.webRequest.onHeadersReceived((details, callback) => {
     callback({

@@ -1,17 +1,15 @@
-import React, { useState, useEffect } from 'react';
-import axios from 'axios';
+import React, { useState, useEffect } from "react";
+import axios from "axios";
 
-
-
-const PushJsonToGitHub = ({ jsonData, pulledData}) => {
+const PushJsonToGitHub = ({ jsonData, pulledData }) => {
     const pushToGitHub = async (e) => {
         e.preventDefault();
 
         const result = await window.github.pushJson(myJsonData);
         if (result.success) {
-            console.log('✅ Pushed to GitHub:', result.res);
+            console.log("✅ Pushed to GitHub:", result.res);
         } else {
-            console.error('❌ Failed to push:', result.error);
+            console.error("❌ Failed to push:", result.error);
         }
     };
 
@@ -20,22 +18,32 @@ const PushJsonToGitHub = ({ jsonData, pulledData}) => {
 
         const result = await github.pullJson();
         if (result.success) {
-            console.log('✅ Pulled from GitHub:', result.res);
+            console.log("✅ Pulled from GitHub:", result.res);
             pulledData(result.res);
         } else {
-            console.error('❌ Failed to pull:', result.error);
+            console.error("❌ Failed to pull:", result.error);
         }
     };
 
     // Optional effect or button
     return (
         <>
-            <button onClick={pullFromGitHub}>
-                Pull JSON from GitHub
-            </button>
-            <button onClick={pushToGitHub}>
-                Push JSON to GitHub
-            </button>
+            <div className="mb-3">
+                <button
+                    type="button"
+                    className="btn btn-primary me-3"
+                    onClick={pullFromGitHub}
+                >
+                    Pull JSON from GitHub
+                </button>
+                <button
+                    type="button"
+                    className="btn btn-warning me-3"
+                    onClick={pushToGitHub}
+                >
+                    Push JSON to GitHub
+                </button>
+            </div>
         </>
     );
 };

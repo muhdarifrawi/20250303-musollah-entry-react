@@ -36,18 +36,20 @@ function useFixedHashLocation() {
 }
 
 function Index() {
-    const [location, navigate] = useFixedHashLocation();;
+    const [location, navigate] = useFixedHashLocation();
     console.log("Wouter location:", location);
     return (
         <>
-            <OffCanvas />
-            <Router hook={useFixedHashLocation}>
-                <Switch>
-                    <Route path="/" component={Homepage} />
-                    <Route path="/musollah-form" component={MusollahForm} />
-                    <Route path="/mosque-form" component={MosqueForm} />
-                </Switch>
-            </Router>
+            <div className="container">
+                <OffCanvas />
+                <Router hook={useFixedHashLocation}>
+                    <Switch>
+                        <Route path="/" component={Homepage} />
+                        <Route path="/musollah-form" component={MusollahForm} />
+                        <Route path="/mosque-form" component={MosqueForm} />
+                    </Switch>
+                </Router>
+            </div>
         </>
     );
 }

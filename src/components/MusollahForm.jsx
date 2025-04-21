@@ -4,6 +4,7 @@ import PushJsonToGitHub from "./PushJsonToGitHub.jsx";
 // import TestComp from "./TestComp";
 
 function MusollahForm() {
+  const [sha, setSha] = useState("");
   const [data, setData] = useState({});
   const [formValues, setFormValues] = useState({
     locationNameInput: "",
@@ -29,6 +30,10 @@ function MusollahForm() {
     renderData();
   };
 
+  const jsonData = () => {
+    return formValues;
+  }
+
   const renderData = (data) => {
     if (data) {
       let { name, html_url, content } = data;
@@ -48,7 +53,7 @@ function MusollahForm() {
       return (
         <>
           <h1>Data Info</h1>
-          <PushJsonToGitHub pulledData={pulledData} />
+          <PushJsonToGitHub pulledData={pulledData} jsonData={jsonData()}/>
           <h3>Filename: </h3>
           <p>{name}</p>
           <h3>Content URL:</h3>

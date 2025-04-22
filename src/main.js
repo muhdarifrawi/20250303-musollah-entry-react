@@ -123,7 +123,7 @@ ipcMain.handle('push-json-to-github', async (event, jsonData, sha) => {
         repo: REPO,
         path: PATH,
         message: 'Update from Electron app',
-        content: Buffer.from(JSON.stringify(jsonData)).toString('base64'),
+        content: Buffer.from(JSON.stringify(jsonData, undefined, 4)).toString('base64'),
         sha: sha,
       },
     });

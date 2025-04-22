@@ -27,7 +27,6 @@ const PushJsonToGitHub = ({ pushData, pulledData }) => {
         }
     };
 
-    // Optional effect or button
     return (
         <>
             <div className="mb-3">

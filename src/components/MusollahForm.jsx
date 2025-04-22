@@ -15,7 +15,7 @@ function MusollahForm() {
         statusInput: "",
         statusDescriptionInput: "",
         wudhuAreaInput: "",
-        directionInput: [""],
+        directionsInput: [""],
         prayerItemsInput: "",
         imagesInput: [""],
         importantNotesInput: "",
@@ -158,33 +158,33 @@ function MusollahForm() {
     const handleAddDirections = (e) => {
         e.preventDefault();
         setFormValues((prev) => {
-            let updatedDirectionInput = [...prev.directionInput];
-            updatedDirectionInput = [...prev.directionInput, ""];
+            let updatedDirectionInput = [...prev.directionsInput];
+            updatedDirectionInput = [...prev.directionsInput, ""];
             return {
                 ...prev,
-                directionInput: updatedDirectionInput,
+                directionsInput: updatedDirectionInput,
             };
         });
     };
 
     const handleDirectionsChange = (index, value) => {
         setFormValues((prev) => {
-            const updatedDirectionInput = [...prev.directionInput];
+            const updatedDirectionInput = [...prev.directionsInput];
             updatedDirectionInput[index] = value;
             return {
                 ...prev,
-                directionInput: updatedDirectionInput,
+                directionsInput: updatedDirectionInput,
             };
         });
     };
 
     const handleDirectionsRemove = (index) => {
         setFormValues((prev) => {
-            let updatedDirectionInput = [...prev.directionInput];
+            let updatedDirectionInput = [...prev.directionsInput];
             updatedDirectionInput.splice(index, 1);
             return {
                 ...prev,
-                directionInput: updatedDirectionInput,
+                directionsInput: updatedDirectionInput,
             };
         });
     };
@@ -372,7 +372,7 @@ function MusollahForm() {
                                 Directions
                             </label>
 
-                            {formValues.directionInput.map((elm, index) => {
+                            {formValues.directionsInput.map((elm, index) => {
                                 // console.log(elm,index);
                                 return (
                                     <div className="d-flex align-items-center mb-3" key={index}>
@@ -380,7 +380,7 @@ function MusollahForm() {
                                             type="text"
                                             className="form-control"
                                             placeholder={`Enter direction line ${index + 1}`}
-                                            value={formValues.directionInput[index]}
+                                            value={formValues.directionsInput[index]}
                                             onChange={(e) =>
                                                 handleDirectionsChange(index, e.target.value)
                                             }

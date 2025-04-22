@@ -1,11 +1,11 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
 
-const PushJsonToGitHub = ({ jsonData, pulledData }) => {
+const PushJsonToGitHub = ({ pushData, pulledData }) => {
     const pushToGitHub = async (e) => {
         e.preventDefault();
 
-        console.log("Data to GitHub:", jsonData);
+        console.log("Data to GitHub:", pushData);
 
         // const result = await window.github.pushJson(myJsonData);
         // if (result.success) {

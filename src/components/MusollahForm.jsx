@@ -35,6 +35,11 @@ function MusollahForm() {
     }
   }
 
+  const handleContentChange = (e) => {
+    console.log(e.target.value);
+    setDataContent(JSON.parse(e.target.value));
+  }
+
   const pulledData = (data) => {
     setData(data);
 
@@ -123,18 +128,6 @@ function MusollahForm() {
     if (data) {
       let { name, html_url } = data;
 
-      // let prettifyObj = "";
-
-      // if (content) {
-      //   let decodedContent = atob(content);
-      //   let decodedObj = JSON.parse(decodedContent);
-      //   prettifyObj = JSON.stringify(decodedObj, undefined, 4);
-
-      //   console.log(decodedContent);
-      //   console.log(decodedObj);
-      //   console.log(prettifyObj);
-      // }
-
       return (
         <>
           <h1>Data Info</h1>
@@ -144,7 +137,7 @@ function MusollahForm() {
           <h3>Content URL:</h3>
           <p>{html_url}</p>
           <h3>Content 
-            <button type="button" class="btn btn-success" onClick={()=>toggleEdit()}>{isRead ? "Read Only" : "Edit Mode"}</button>
+            <button type="button" className={"ms-3 btn-sm btn " + (isRead ? "btn-success" : "btn-danger")} onClick={()=>toggleEdit()}>{isRead ? "Read Only" : "Edit Mode"}</button>
           </h3>
           
           <textarea
@@ -153,6 +146,7 @@ function MusollahForm() {
             id="content-info"
             value={dataContent ?  JSON.stringify(dataContent, undefined, 4) : ""}
             readOnly={isRead}
+            onChange={(e)=>handleContentChange(e)}
             style={{ height: 45 + "vh" }}
           ></textarea>
         </>

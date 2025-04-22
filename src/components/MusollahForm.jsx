@@ -100,28 +100,21 @@ function MusollahForm() {
   };
 
   const pushData = () => {
-    let { content } = data;
-    let dataIndex = "";
-    let decodedObj = "";
-    if (content) {
-      let decodedContent = atob(content);
-      decodedObj = JSON.parse(decodedContent);
+    let { sha } = data;
+    // let dataIndex = "";
+    // let decodedObj = "";
+    // if (content) {
+    //   let decodedContent = atob(content);
+    //   decodedObj = JSON.parse(decodedContent);
 
-      // console.log(decodedContent);
-      // console.log(decodedObj);
-      // console.group("CURRENT CONTENT >>> ", decodedObj);
-      // console.log("Check data length >>> ", Object.keys(decodedObj));
+    //   dataIndex = Object.keys(decodedObj);
 
-      dataIndex = Object.keys(decodedObj);
+    //   let newIndex = Number(dataIndex) + 1;
+    //   let newMusollahData = convertToMusollahData(formValues);
+    //   decodedObj[newIndex] = newMusollahData;
+    // }
 
-      let newIndex = Number(dataIndex) + 1;
-      let newMusollahData = convertToMusollahData(formValues);
-      decodedObj[newIndex] = newMusollahData;
-    }
-
-    // setData(data, formValues);
-    // console.log("NEW DATA >>> ", data);
-    return decodedObj;
+    return [dataContent, sha];
   };
 
   const renderData = (data) => {
@@ -164,7 +157,7 @@ function MusollahForm() {
     }));
   };
 
-  const handleSubmit = (e) => {
+  const handleAddEntry = (e) => {
     e.preventDefault();
 
     if(dataContent){
@@ -256,7 +249,7 @@ function MusollahForm() {
     <>
       <div className="row">
         <div className="col-6">
-          <form onSubmit={handleSubmit}>
+          <form onSubmit={handleAddEntry}>
             <h1>Musollah Form</h1>
             <div className="mb-3">
               <label htmlFor="location-name-input" className="form-label">
@@ -552,7 +545,7 @@ function MusollahForm() {
             </div>
             <div className="mb-3">
               <button type="submit" className="btn btn-primary mb-3">
-                Submit
+                Add Entry
               </button>
             </div>
           </form>

@@ -18,6 +18,6 @@ contextBridge.exposeInMainWorld('versions', {
 })
 
 contextBridge.exposeInMainWorld('github', {
-    pushJson: (jsonData) => ipcRenderer.invoke('push-json-to-github', jsonData),
+    pushJson: (jsonData, sha) => ipcRenderer.invoke('push-json-to-github', jsonData, sha),
     pullJson: () => ipcRenderer.invoke('pull-json-from-github'),
 });

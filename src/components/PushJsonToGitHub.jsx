@@ -7,12 +7,12 @@ const PushJsonToGitHub = ({ pushData, pulledData }) => {
 
         console.log("Data to GitHub:", pushData);
 
-        // const result = await window.github.pushJson(myJsonData);
-        // if (result.success) {
-        //     console.log("✅ Pushed to GitHub:", result.res);
-        // } else {
-        //     console.error("❌ Failed to push:", result.error);
-        // }
+        const result = await window.github.pushJson(pushData[0], pushData[1]);
+        if (result.success) {
+            console.log("✅ Pushed to GitHub:", result.res);
+        } else {
+            console.error("❌ Failed to push:", result.error);
+        }
     };
 
     const pullFromGitHub = async (e) => {

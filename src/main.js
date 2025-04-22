@@ -96,29 +96,40 @@ app.on('window-all-closed', () => {
 const { ipcMain } = require('electron');
 const axios = require('axios');
 
-ipcMain.handle('push-json-to-github', async (event, jsonData) => {
+ipcMain.handle('push-json-to-github', async (event, jsonData, sha) => {
   try {
+    console.log("MAIN JS PUSH TO GITHUB >>> ", jsonData, sha);
     const TOKEN = process.env.GITHUB_TOKEN;
     const URL = process.env.GITHUB_FILE_URL;
+    const PATH = process.env.GITHUB_PATH;
+    const OWNER = process.env.GITHUB_OWNER;
+    const REPO = process.env.GITHUB_REPO;
     console.log("\u001b[34m[main.js > push to github] GITHUB TOKEN\u001b[0m", TOKEN);
     console.log("\u001b[34m[main.js > push to github] GITHUB URL\u001b[0m", URL);
+    console.log("\u001b[34m[main.js > push to github] GITHUB PATH\u001b[0m", PATH);
+    console.log("\u001b[34m[main.js > push to github] GITHUB PATH\u001b[0m", OWNER);
+    console.log("\u001b[34m[main.js > push to github] GITHUB PATH\u001b[0m", REPO);
 
     const res = await axios({
       method: 'put',
-      url: 'https://api.github.com/repos/YOUR_USERNAME/YOUR_REPO/contents/path/to/file.json',
+      url: URL,
       headers: {
-        Authorization: `Bearer ${TOKEN}`,
+        Authorization: `token ${TOKEN}`,
         'Content-Type': 'application/json',
+        Accept: "application/vnd.github+json"
       },
       data: {
+        owner: OWNER,
+        repo: REPO,
+        path: PATH,
         message: 'Update from Electron app',
         content: Buffer.from(JSON.stringify(jsonData)).toString('base64'),
-        sha: 'FILE_SHA',
+        sha: sha,
       },
     });
     return { success: true, res: res.data };
   } catch (err) {
-    return { success: false, error: err.message };
+    return { success: false, error: err.response?.data || err.message };
   }
 });
 

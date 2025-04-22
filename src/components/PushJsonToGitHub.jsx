@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
 
-const PushJsonToGitHub = ({ pushData, pulledData }) => {
+const PushJsonToGitHub = ({ pushData, pulledData, onPushSuccess }) => {
     const pushToGitHub = async (e) => {
         e.preventDefault();
 
@@ -10,6 +10,7 @@ const PushJsonToGitHub = ({ pushData, pulledData }) => {
         const result = await window.github.pushJson(pushData[0], pushData[1]);
         if (result.success) {
             console.log("✅ Pushed to GitHub:", result.res);
+            onPushSuccess();
         } else {
             console.error("❌ Failed to push:", result.error);
         }

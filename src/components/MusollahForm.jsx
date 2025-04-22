@@ -117,6 +117,10 @@ function MusollahForm() {
     return [dataContent, sha];
   };
 
+  const handleSuccess = () => {
+    setDataContent({});
+  }
+
   const renderData = (data) => {
     if (data) {
       let { name, html_url } = data;
@@ -124,7 +128,7 @@ function MusollahForm() {
       return (
         <>
           <h1>Data Info</h1>
-          <PushJsonToGitHub pulledData={pulledData} pushData={pushData()} />
+          <PushJsonToGitHub pulledData={pulledData} pushData={pushData()} onPushSuccess={handleSuccess}/>
           <h3>Filename: </h3>
           <p>{name}</p>
           <h3>Content URL:</h3>

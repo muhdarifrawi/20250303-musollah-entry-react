@@ -6,6 +6,7 @@ import PushJsonToGitHub from "./PushJsonToGitHub.jsx";
 function MusollahForm() {
   const [dataContent, setDataContent] = useState({});
   const [data, setData] = useState({});
+  const [isRead, isSetRead] = useState(true);
   const [formValues, setFormValues] = useState({
     locationNameInput: "",
     addressInput: "",
@@ -24,6 +25,15 @@ function MusollahForm() {
     countryInput: "",
     idInput: "",
   });
+
+  const toggleEdit = () => {
+    if(isRead){
+      isSetRead(false);
+    }
+    else {
+      isSetRead(true);
+    }
+  }
 
   const pulledData = (data) => {
     setData(data);
@@ -133,15 +143,17 @@ function MusollahForm() {
           <p>{name}</p>
           <h3>Content URL:</h3>
           <p>{html_url}</p>
-          <h3>Content:</h3>
+          <h3>Content 
+            <button type="button" class="btn btn-success" onClick={()=>toggleEdit()}>{isRead ? "Read Only" : "Edit Mode"}</button>
+          </h3>
           
           <textarea
             className="form-control"
             name="content-info"
             id="content-info"
             value={dataContent ?  JSON.stringify(dataContent, undefined, 4) : ""}
-            readOnly
-            style={{ height: 30 + "vh" }}
+            readOnly={isRead}
+            style={{ height: 45 + "vh" }}
           ></textarea>
         </>
       );
@@ -552,17 +564,6 @@ function MusollahForm() {
           </form>
         </div>
         <div className="col-6">{renderData(data)}</div>
-        <div>
-          <label>New Content :</label>
-        <textarea
-            className="form-control"
-            name="content-info"
-            id="content-info"
-            value={dataContent ?  JSON.stringify(dataContent, undefined, 4) : ""}
-            readOnly
-            style={{ height: 30 + "vh" }}
-          ></textarea>
-        </div>
       </div>
     </>
   );

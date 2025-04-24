@@ -5,6 +5,7 @@ import PushJsonToGitHub from "./PushJsonToGitHub.jsx";
 
 function MusollahForm() {
   const [dataContent, setDataContent] = useState({});
+  const [isContentWarning, setIsContentWarning] = useState(false);
   const [data, setData] = useState({});
   const [isRead, isSetRead] = useState(true);
   const [formValues, setFormValues] = useState({
@@ -27,17 +28,66 @@ function MusollahForm() {
   });
 
   const toggleEdit = () => {
+    setIsContentWarning(false);
     if(isRead){
       isSetRead(false);
     }
     else {
-      isSetRead(true);
+      try {
+        // convert to proper JSON from string before "saving"
+        var obj = dataContent;
+        if(typeof obj == "object"){
+          obj = JSON.stringify(obj, undefined, 4);
+        }
+
+        obj = JSON.parse(obj);
+        console.log(typeof obj);
+        if (obj && typeof obj === "object") {
+          setDataContent(obj)
+          isSetRead(true);
+        }
+    }
+    catch (err) { 
+      // alert("Not a valid JSON");
+      setIsContentWarning(true);
+      console.log(err);
+    }
+      
     }
   }
 
   const handleContentChange = (e) => {
+    console.log(typeof e.target.value);
     console.log(e.target.value);
-    setDataContent(JSON.parse(e.target.value));
+    
+    // if(isRead){
+    //   setDataContent(JSON.parse(e.target.value));
+    // }
+    // else {
+    //   setDataContent((e.target.value).toString());
+    // }
+    setDataContent(e.target.value)
+  }
+
+  const handleContentDisplay = () => {
+    if(typeof dataContent == "object"){
+      return JSON.stringify(dataContent, undefined, 4)
+    }
+    else {
+      return dataContent
+    }
+  }
+
+  const contentWarning = () => {
+
+    return (
+      <>
+        <div className="alert alert-warning alert-danger fade show d-flex justify-content-between" role="alert">
+          <strong>Not a valid JSON format.</strong>
+          <button type="button" className="btn-close" aria-label="Close" onClick={() => setIsContentWarning(false)}></button>
+        </div>
+      </>
+    )
   }
 
   const pulledData = (data) => {
@@ -64,6 +114,7 @@ function MusollahForm() {
       locationNameInput,
       addressInput,
       floorInput,
+      capacityInput,
       layoutInput,
       layoutDescriptionInput,
       statusInput,
@@ -82,6 +133,7 @@ function MusollahForm() {
     let convertedObj = {
       name: locationNameInput,
       address: [addressInput, floorInput],
+      areaCapacity: capacityInput,
       layoutType: layoutInput,
       layoutDescription: layoutDescriptionInput,
       status: statusInput,
@@ -101,18 +153,6 @@ function MusollahForm() {
 
   const pushData = () => {
     let { sha } = data;
-    // let dataIndex = "";
-    // let decodedObj = "";
-    // if (content) {
-    //   let decodedContent = atob(content);
-    //   decodedObj = JSON.parse(decodedContent);
-
-    //   dataIndex = Object.keys(decodedObj);
-
-    //   let newIndex = Number(dataIndex) + 1;
-    //   let newMusollahData = convertToMusollahData(formValues);
-    //   decodedObj[newIndex] = newMusollahData;
-    // }
 
     return [dataContent, sha];
   };
@@ -136,12 +176,13 @@ function MusollahForm() {
           <h3>Content 
             <button type="button" className={"ms-3 btn-sm btn " + (isRead ? "btn-success" : "btn-danger")} onClick={()=>toggleEdit()}>{isRead ? "Read Only" : "Edit Mode"}</button>
           </h3>
-          
+          {isContentWarning ? contentWarning() : ""}
           <textarea
             className="form-control"
             name="content-info"
             id="content-info"
-            value={dataContent ?  JSON.stringify(dataContent, undefined, 4) : ""}
+            // value={dataContent ?  JSON.stringify(dataContent, undefined, 4) : ""}
+            value={handleContentDisplay()}
             readOnly={isRead}
             onChange={(e)=>handleContentChange(e)}
             style={{ height: 45 + "vh" }}
@@ -294,6 +335,20 @@ function MusollahForm() {
                 placeholder="3rd Floor"
                 name="floorInput"
                 value={formValues.floorInput}
+                onChange={handleChange}
+              />
+            </div>
+            <div className="mb-3">
+              <label htmlFor="capacity-input" className="form-label">
+                Estimated Pax Max Capacity
+              </label>
+              <input
+                type="text"
+                className="form-control"
+                id="capacity-input"
+                placeholder="4"
+                name="capacityInput"
+                value={formValues.capacityInput}
                 onChange={handleChange}
               />
             </div>
